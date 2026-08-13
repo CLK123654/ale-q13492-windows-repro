@@ -1,0 +1,4 @@
+*.zip binary
+*.xlsx binary
+*.db binary
+* text=auto

@@ -1,0 +1,5 @@
+操作系统： Windows11、macOS或主流64位Linux。
+
+主软件为SQLite3.43或更高兼容版本，命令行需要提供.recover、lost-and-found片段表、integrity_check、foreign_key_check和EXPLAIN QUERY PLAN。代码运行环境为Node.js22或更高兼容版本，只使用node:fs、node:path与node:child_process，通过参数数组和标准输入调用sqlite3或sqlite3.exe，业务处理期间不联网。
+
+执行账号需要读取受损数据库、恢复规则、重建DDL与starter，并能创建临时数据库和交付目录。当前输入规模适合普通64位CPU与常规办公内存，不使用GPU；磁盘需要容纳输入副本、恢复SQL、临时数据库和六件交付物。需设置有限超时，覆盖本次目录恢复并避免异常无限等待。

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task_key": "Q13492",
+  "result": "PASS",
+  "review_method": "人工逐字段和逐附件语义核验，线上AI检测不作为结论",
+  "ai_trace_dimensions": {
+    "language_style": "PASS",
+    "task_reasonableness": "PASS",
+    "obvious_hallucination": "PASS",
+    "fabricated_or_vague_citation": "PASS",
+    "broken_reasoning_chain": "PASS",
+    "answer_leakage": "PASS"
+  },
+  "real_role_and_consumers": "值班数据库工程师恢复目录库，目录维护团队消费重建数据库与目录清单，值班交接人员消费片段清单与恢复报告",
+  "actual_inputs": [
+    "damaged_catalog.db中的受损业务库",
+    "recovery_rules.json中的片段分流规则",
+    "rebuild_schema.sql中的目标表、约束、外键和索引",
+    "starter/run.mjs中的待完成入口"
+  ],
+  "continuous_actions": [
+    "读取数据库标识、完整性结果和恢复规则",
+    "执行SQLite的.recover并导入临时库",
+    "读取完整表和孤立片段",
+    "按code与字段规则分流目录和退役缓存",
+    "执行DDL并写入新库",
+    "检查约束、外键、完整性和索引",
+    "生成两份CSV与恢复报告"
+  ],
+  "main_software_necessity": "SQLite真实执行.recover、恢复SQL导入、PRAGMA检查、约束与索引查询计划；文本扫描或预写CSV不能替代数据库恢复语义",
+  "hard_number_sources": "数据库标识来自damaged_catalog.db，目录与缓存数量及允许范围来自recovery_rules.json，表和索引来自rebuild_schema.sql，固定答案中的页号、字段数和业务集合来自当前Reference",
+  "citation_review": "没有外部链接、行业报告、专家观点或未提供材料，所有规则均定位到候选可见输入文件",
+  "closure": "Prompt声明六件交付，Reference包含同名文件；七个评分项覆盖恢复、分流、重建、约束与报告；五页答案和两列规格提供内部核验值及实现边界",
+  "online_ai_detector_used_as_conclusion": false
+}

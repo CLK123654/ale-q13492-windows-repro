@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "result": "PASS",
+  "scanned_sources": 215,
+  "violations": [],
+  "candidate_score_answer_leakage": [],
+  "rubric_contract": {
+    "total_score": 100,
+    "item_score_sum": 100,
+    "item_count": 7,
+    "required_labels": [
+      "分值：",
+      "标准答案或判定规则：",
+      "关键字段或路径：",
+      "容差及来源：",
+      "未满足时：",
+      "可观察证据及定位方式：",
+      "客观硬性标准：",
+      "通过阈值：",
+      "优先级：",
+      "所属层级："
+    ],
+    "items": [
+      {
+        "index": 1,
+        "title": "1. 入口、交付与只读边界",
+        "score": 12,
+        "missing_labels": [],
+        "priority": "Gate项",
+        "level": "L1"
+      },
+      {
+        "index": 2,
+        "title": "2. SQLite恢复链与数据库标识",
+        "score": 15,
+        "missing_labels": [],
+        "priority": "Gate项",
+        "level": "L4"
+      },
+      {
+        "index": 3,
+        "title": "3. 完整表与孤立片段盘点",
+        "score": 14,
+        "missing_labels": [],
+        "priority": "高权重项",
+        "level": "L3"
+      },
+      {
+        "index": 4,
+        "title": "4. 目录与退役缓存分流",
+        "score": 14,
+        "missing_labels": [],
+        "priority": "高权重项",
+        "level": "L6"
+      },
+      {
+        "index": 5,
+        "title": "5. 新库表结构、约束与索引",
+        "score": 16,
+        "missing_labels": [],
+        "priority": "高权重项",
+        "level": "L7"
+      },
+      {
+        "index": 6,
+        "title": "6. 恢复数据与目录清单一致性",
+        "score": 13,
+        "missing_labels": [],
+        "priority": "高权重项",
+        "level": "L5"
+      },
+      {
+        "index": 7,
+        "title": "7. 完整性、查询计划与恢复报告",
+        "score": 16,
+        "missing_labels": [],
+        "priority": "高权重项",
+        "level": "L9"
+      }
+    ],
+    "gate_count": 2,
+    "gate_upper_bound": 2,
+    "valid": true
+  },
+  "answer_sheets": [
+    "交付物答案清单",
+    "固定字段答案",
+    "固定集合答案",
+    "固定数值答案",
+    "允许变体答案"
+  ],
+  "specification_sheets": [
+    "任务规格转化"
+  ],
+  "task_spec_column_count": 2,
+  "task_asset_id": "sqlite_catalog_fragment_recovery",
+  "forbidden_spec_labels": [],
+  "actual_business_inputs": [
+    "damaged_catalog.db",
+    "recovery_rules.json",
+    "rebuild_schema.sql",
+    "starter/run.mjs"
+  ],
+  "declared_delivery_paths": [
+    "run.mjs",
+    "recovery.sql",
+    "catalog_rebuilt.db",
+    "recovered_catalog.csv",
+    "fragment_inventory.csv",
+    "recovery_report.json"
+  ],
+  "reference_paths": [
+    "catalog_rebuilt.db",
+    "fragment_inventory.csv",
+    "recovered_catalog.csv",
+    "recovery.sql",
+    "recovery_report.json",
+    "run.mjs"
+  ],
+  "undeclared_reference_paths": [],
+  "missing_delivery_paths": [],
+  "humanizer_score": 48,
+  "attachments_sha256": {
+    "输入数据包.zip": "21de179997c1598937991a7eb6e67909fdeda3b9567e6586270b9a333aa622f6",
+    "reference.zip": "ffa310309bce1ebae19b625a23a4fdbbef0ffede91e0a004258751dd931c78df",
+    "关键标准答案.xlsx": "f5f157fd87512544dafe33ce14c6b4a97c706f9943f43a16fece2b507de89e33",
+    "任务规格转化.xlsx": "9f058ef157f446ddeee13aff953ad76061ef470cbdf4425a3761191603c0b73f"
+  },
+  "online_ai_detector_used_as_conclusion": false
+}

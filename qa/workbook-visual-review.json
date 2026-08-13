@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "result": "PASS",
+  "reviewed_pages": [
+    "交付物答案清单",
+    "固定字段答案",
+    "固定集合答案",
+    "固定数值答案",
+    "允许变体答案",
+    "任务规格转化"
+  ],
+  "checks": {
+    "all_text_visible": true,
+    "no_overflow_or_clipping": true,
+    "headers_consistent": true,
+    "standard_answer_sheet_count": 5,
+    "specification_column_count": 2,
+    "specification_business_only": true
+  },
+  "notes": "六张最终预览已逐页查看，字段、路径和长文本完整可读。任务规格只含模块与规格内容两列。"
+}

@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { inflateRawSync } from 'node:zlib';
+const root=path.resolve(import.meta.dirname,'..'),artifacts=path.join(root,'artifacts'),assert=(v,m)=>{if(!v)throw new Error(m);},sha=b=>crypto.createHash('sha256').update(b).digest('hex'),shaFile=f=>sha(fs.readFileSync(f));
+const expected={'输入数据包.zip':'21de179997c1598937991a7eb6e67909fdeda3b9567e6586270b9a333aa622f6','reference.zip':'ffa310309bce1ebae19b625a23a4fdbbef0ffede91e0a004258751dd931c78df','关键标准答案.xlsx':'f5f157fd87512544dafe33ce14c6b4a97c706f9943f43a16fece2b507de89e33','任务规格转化.xlsx':'9f058ef157f446ddeee13aff953ad76061ef470cbdf4425a3761191603c0b73f'};
+function zip(data){const files=new Map();let o=0;while(o+46<=data.length){if(data.readUInt32LE(o)!==0x02014b50){o++;continue;}const method=data.readUInt16LE(o+10),cs=data.readUInt32LE(o+20),us=data.readUInt32LE(o+24),nl=data.readUInt16LE(o+28),el=data.readUInt16LE(o+30),cl=data.readUInt16LE(o+32),lo=data.readUInt32LE(o+42),name=data.subarray(o+46,o+46+nl).toString('utf8').replaceAll('\\','/');if(!name.endsWith('/')){const lnl=data.readUInt16LE(lo+26),lel=data.readUInt16LE(lo+28),start=lo+30+lnl+lel,body=method===0?data.subarray(start,start+cs):method===8?inflateRawSync(data.subarray(start,start+cs)):null;assert(body&&body.length===us,'ZIP解析失败');files.set(name,body);}o+=46+nl+el+cl;}return files;}
+for(const[name,digest]of Object.entries(expected))assert(shaFile(path.join(artifacts,name))===digest,name+'摘要不一致');
+const input=zip(fs.readFileSync(path.join(artifacts,'输入数据包.zip'))),reference=zip(fs.readFileSync(path.join(artifacts,'reference.zip'))),inputNames=[...input.keys()].sort(),referenceNames=[...reference.keys()].sort();
+assert(JSON.stringify(inputNames)===JSON.stringify(['README.md','damaged_catalog.db','rebuild_schema.sql','recovery_rules.json','starter/run.mjs']),'输入成员不一致');
+assert(JSON.stringify(referenceNames)===JSON.stringify(['catalog_rebuilt.db','fragment_inventory.csv','recovered_catalog.csv','recovery.sql','recovery_report.json','run.mjs']),'Reference成员不一致');
+const code=reference.get('run.mjs').toString('utf8');for(const token of ['node:path','node:child_process','windowsHide','SQLITE3_EXECUTABLE','sqlite3.exe','child.stdin.end'])assert(code.includes(token),'入口缺少可移植性条件 '+token);assert(!/spawn\([^\n]+shell\s*:\s*true/u.test(code),'入口依赖shell');assert(!/(?:^|["'`])\/(?:tmp|home|usr)\//mu.test(code),'入口含固定POSIX路径');
+console.log(JSON.stringify({result:'PASS',attachments:expected,input_members:inputNames,reference_members:referenceNames,platform:process.platform,node:process.version},null,2));

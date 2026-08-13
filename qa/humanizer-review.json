@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "skill": "humanizer-zh",
+  "result": "PASS",
+  "scores": {
+    "直接性": 10,
+    "节奏": 9,
+    "信任度": 10,
+    "真实性": 10,
+    "精炼度": 9,
+    "total": 48
+  },
+  "minimum_total": 45,
+  "reviewed_scopes": [
+    "任务名称",
+    "任务概要",
+    "任务prompt",
+    "关键动作",
+    "评分表",
+    "环境依赖",
+    "软件步骤",
+    "输入材料中的自然语言",
+    "Reference中的用户可见文字",
+    "关键标准答案工作簿全部自然语言",
+    "任务规格工作簿全部自然语言"
+  ],
+  "notes": [
+    "任务直接说明服务目录迁移失败后的数据库恢复，没有宣传式背景或抽象价值判断",
+    "保留值班数据库工程师与目录维护团队之间的生产和消费关系",
+    "删除固定样本答案、重复执行、改参回放、哈希和内部工程过程",
+    "评分按恢复链、片段分流、数据库结构、交付一致性和报告可追溯性设置",
+    "规格表只保留两列业务规格，没有学科、难度、人员、质检或流程字段"
+  ],
+  "reviewed_artifacts_sha256": {
+    "任务名称.txt": "90c31487291d05160d4b16ae36ecdf6d3382fc42b3eb6c448f5325d3ca407550",
+    "任务概要.txt": "03675fb1e1b4ba64cf24dd9882e6ba961bcc2c6ddaaefb230d6fa8e6e19322d3",
+    "任务prompt.txt": "5e8fd4aa07a377df2e06296a285581ab7e45cbf9e8bcd459bac728900c5ecc3d",
+    "关键动作.txt": "f0c589e04b421df05444714e8a1378e8d76e74121f17a0e69e1cf4dbbb2d1e07",
+    "评分表.txt": "cecf11ba4be2ffbec39d61254895921e6dad957b2991556db834b78d79236dd6",
+    "环境依赖.txt": "af27a25c8c56fb8cb9c438f523abc6143f75c0e9d216279dea0dcc1f19eb2e4b",
+    "相关专业软件的关键步骤.txt": "24083de61bf8b81c0bcd8ea41520ff0153eaaba1ab25330ad28e25e00667415c",
+    "task_fields.json": "330d53dfb8581255d9ad3372f061f8bcb42015149d5d2b57b9b68834e88be267",
+    "输入数据包.zip": "21de179997c1598937991a7eb6e67909fdeda3b9567e6586270b9a333aa622f6",
+    "reference.zip": "ffa310309bce1ebae19b625a23a4fdbbef0ffede91e0a004258751dd931c78df",
+    "关键标准答案.xlsx": "f5f157fd87512544dafe33ce14c6b4a97c706f9943f43a16fece2b507de89e33",
+    "任务规格转化.xlsx": "9f058ef157f446ddeee13aff953ad76061ef470cbdf4425a3761191603c0b73f",
+    "ALE-专家数据作业表.csv": "c2354cf6b3d5d91b55632f1c9b0724f90f452ae4836e47a1e6d007f13fd6564b"
+  },
+  "online_ai_detector_used_as_conclusion": false
+}

@@ -1,0 +1,7 @@
+读取受损数据库、恢复规则和重建DDL，确认数据库标识、目录前缀、退役前缀与字段约束。
+对受损库执行integrity_check，再把.recover生成的SQL保存并导入临时数据库。
+读取完整表和孤立片段，按业务字段与code前缀区分可恢复目录和退役缓存。
+在空数据库执行重建DDL，写入categories、catalog_entries、audit_notes和恢复元数据。
+恢复受损库的user_version与application_id，检查约束、外键、数据库完整性和复合索引。
+从新库与片段盘点结果生成两份CSV，并汇总recovery_report.json。
+关闭SQLite进程，删除临时数据库，保留任务要求中的六件交付物。

@@ -1,0 +1,85 @@
+总分100分
+
+1. 入口、交付与只读边界
+分值：12分
+标准答案或判定规则：run.mjs接受输入目录与空输出目录，使用SQLite命令行完成恢复并交付任务要求中的六个文件；受损数据库、规则、DDL和starter保持不变。
+关键字段或路径：run.mjs；recovery.sql；catalog_rebuilt.db；recovered_catalog.csv；fragment_inventory.csv；recovery_report.json；输入目录
+容差及来源：交付路径按任务要求核对；CSV允许LF或CRLF行尾，JSON键序和缩进可不同，恢复SQL的空白与标识符转义以SQLite实际输出为准。
+未满足时：入口参数无效、核心文件缺失、输入被改写、临时数据库进入交付目录，或入口未调用SQLite。
+可观察证据及定位方式：六件交付物、run.mjs中的进程调用、输入文件内容与recovery_report.json。
+客观硬性标准：入口结构、交付清单和输入只读三项均满足。
+通过阈值：三项全部满足。
+优先级：Gate项
+所属层级：L1任务指令遵循层
+
+2. SQLite恢复链与数据库标识
+分值：15分
+标准答案或判定规则：从受损库读取user_version、application_id与integrity_check结果，通过标准输入执行.recover --lost-and-found recovered_fragments，将恢复SQL导入临时数据库；新库沿用原有user_version与application_id。
+关键字段或路径：damaged_catalog.db；run.mjs中的sqlite3进程参数和标准输入；recovery.sql；catalog_rebuilt.db的PRAGMA结果
+容差及来源：数据库标识无容差，来源为damaged_catalog.db；恢复SQL空白、事务语句排版与引号样式按SQLite兼容版本处理。
+未满足时：扫描数据库字节代替.recover、附带预写恢复结果、lost-and-found表名不符、恢复SQL不能导入，或新库标识与受损库不同。
+可观察证据及定位方式：run.mjs、recovery.sql、受损库与新库的PRAGMA结果。
+客观硬性标准：真实.recover链可追溯，恢复SQL可导入，两个数据库标识逐项相同。
+通过阈值：三项全部满足。
+优先级：Gate项
+所属层级：L4核心功能层
+
+3. 完整表与孤立片段盘点
+分值：14分
+标准答案或判定规则：从临时恢复库读取categories、audit_notes与recovered_fragments；片段清单保留rootpgno、pgno、nfield、记录标识、code和处置结果，不丢失或重复片段。
+关键字段或路径：临时恢复库中的categories、audit_notes、recovered_fragments；fragment_inventory.csv
+容差及来源：记录集合按主键或片段位置无序比较，字段值无容差；来源为recovery.sql导入结果。
+未满足时：完整表记录缺失或改写、片段漏行或重复、页面位置与恢复结果不符，或凭行号猜测处置。
+可观察证据及定位方式：recovery.sql、临时恢复库查询结果与fragment_inventory.csv。
+客观硬性标准：完整表逐字段保留，全部孤立片段具有唯一身份和完整业务字段。
+通过阈值：两类完整表与片段清单均满足。
+优先级：高权重项
+所属层级：L3输入数据导入与完整性层
+
+4. 目录与退役缓存分流
+分值：14分
+标准答案或判定规则：依据recovery_rules.json中的目录前缀、退役前缀、允许scope和enabled取值检查片段；合格目录进入catalog_entries，退役缓存只保留在片段清单。
+关键字段或路径：recovery_rules.json；fragment_inventory.csv中的code、nfield、disposition；catalog_rebuilt.db中的catalog_entries
+容差及来源：规则字段与业务值无容差，处置文字允许等义表达但必须清楚区分恢复目录与拒绝退役缓存。
+未满足时：退役缓存进入目录、合格目录被丢弃、忽略字段形状或允许值，或处置无法追溯到规则。
+可观察证据及定位方式：恢复规则、片段清单和新库目录表之间的code关联。
+客观硬性标准：每个片段按业务内容与规则唯一分流，目录与退役缓存集合不相交。
+通过阈值：全部片段满足唯一处置和规则一致性。
+优先级：高权重项
+所属层级：L6领域计算与专业规则层
+
+5. 新库表结构、约束与索引
+分值：16分
+标准答案或判定规则：新库使用rebuild_schema.sql重建categories、catalog_entries、audit_notes与recovery_meta；catalog_entries具有主键、code唯一约束、scope检查、enabled检查、category_id外键和category_id、scope、entry_id复合索引。
+关键字段或路径：rebuild_schema.sql；catalog_rebuilt.db中的sqlite_schema、index_xinfo、foreign_key_list
+容差及来源：对象名称与列顺序按rebuild_schema.sql核对；等价辅助索引可附加，但不得削弱声明约束或改变交付语义。
+未满足时：绕过DDL手写不同schema、缺少约束或外键、复合索引列不完整，或重建已下线缓存表。
+可观察证据及定位方式：rebuild_schema.sql与新库的sqlite_schema、PRAGMA index_xinfo及foreign_key_list。
+客观硬性标准：声明表、约束、外键和复合索引全部存在并作用于正确列。
+通过阈值：四类结构全部满足。
+优先级：高权重项
+所属层级：L7约束与完整性层
+
+6. 恢复数据与目录清单一致性
+分值：13分
+标准答案或判定规则：完整表按恢复结果写入新库，合格目录按业务字段写入catalog_entries；recovered_catalog.csv与新库目录表在entry_id、code、label、scope、category_id和enabled上逐行一致，不包含退役缓存。
+关键字段或路径：catalog_rebuilt.db中的categories、audit_notes与catalog_entries；recovered_catalog.csv
+容差及来源：集合按主键无序比较，业务字段无容差；CSV必要引号与行尾不计分。
+未满足时：记录缺失、重复或补造，业务字段改变，CSV与数据库冲突，或出现退役缓存code。
+可观察证据及定位方式：临时恢复库、新库三张业务表和recovered_catalog.csv。
+客观硬性标准：恢复集合来自临时库和规则分流，数据库与CSV共享主键及字段完全一致。
+通过阈值：完整表、目录表和CSV三者闭合。
+优先级：高权重项
+所属层级：L5多源关联与字段一致性层
+
+7. 完整性、查询计划与恢复报告
+分值：16分
+标准答案或判定规则：catalog_rebuilt.db的integrity_check为ok且foreign_key_check无记录；category_id与scope筛选使用声明的复合索引；recovery_report.json汇总SQLite版本、恢复命令、数据库标识、各类记录数、完整性、外键、索引与输入保护状态，数值可从数据库和两份CSV复算。
+关键字段或路径：catalog_rebuilt.db；EXPLAIN QUERY PLAN结果；recovery_report.json；recovered_catalog.csv；fragment_inventory.csv
+容差及来源：计数为整数且无容差，查询计划节点编号和描述前缀可随SQLite兼容版本变化，但必须出现目标索引名。
+未满足时：数据库完整性失败、存在外键违规、计划未用目标索引、报告预填固定结论，或报告统计与结构化交付冲突。
+可观察证据及定位方式：两项PRAGMA结果、查询计划、两份CSV和recovery_report.json对应字段。
+客观硬性标准：完整性、外键和索引三项成立，报告所有统计与交付可相互复算。
+通过阈值：四类结果全部满足。
+优先级：高权重项
+所属层级：L9跨产物一致性与可追溯层

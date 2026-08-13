@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "task_key": "Q13492",
+  "result": "PASS",
+  "scopes": [
+    "17个任务字段",
+    "输入ZIP全部文本成员",
+    "Reference ZIP全部文本成员",
+    "关键标准答案五页全部单元格",
+    "任务规格全部单元格",
+    "公开仓库README与NOTICE",
+    "公开仓库task镜像"
+  ],
+  "controlled_enum_exemption": [
+    "学科一级分类受控选项",
+    "学科二级分类受控选项",
+    "题目难度受控选项",
+    "操作类型受控选项",
+    "是否支持Windows受控字段"
+  ],
+  "violations": {
+    "windows": [],
+    "mixed_space": [],
+    "quotes": [],
+    "unreal_label": [],
+    "internal": []
+  },
+  "online_ai_detector_used_as_conclusion": false
+}

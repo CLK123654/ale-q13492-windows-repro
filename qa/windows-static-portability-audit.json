@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "task_key": "Q13492",
+  "result": "PASS",
+  "audit_type": "static_portability_review",
+  "new_actions_run_triggered": false,
+  "local_business_entry_executed": false,
+  "main_software": "SQLite",
+  "runtime": "Node.js22或更高兼容版本",
+  "operating_system_target": "Windows11原生环境",
+  "checks": {
+    "sqlite_executable_resolution": "SQLITE3_EXECUTABLE或sqlite3.exe",
+    "node_standard_library_only": true,
+    "third_party_code_dependencies": [],
+    "powershell_entry_reviewed": true,
+    "entry_command": "node run.mjs INPUT_DIR OUTPUT_DIR",
+    "process_arguments_use_array": true,
+    "sqlite_commands_use_stdin": true,
+    "shell_redirection_required": false,
+    "path_api": "node:path",
+    "hardcoded_posix_paths": [],
+    "posix_shell_dependencies": [],
+    "linux_binary_members": [],
+    "wsl_required": false,
+    "container_required": false,
+    "utf8_explicit_for_json_sql_csv": true,
+    "crlf_csv_supported": true,
+    "spaces_and_chinese_paths_supported_by_api_usage": true,
+    "input_archive_uses_forward_slash_members": true,
+    "reference_archive_uses_forward_slash_members": true
+  },
+  "dependency_lock": {
+    "sqlite_minimum": "3.43",
+    "node_minimum": "22",
+    "package_manager_install_required": false,
+    "external_network_required_during_business_run": false
+  },
+  "closure": {
+    "prompt_delivery_reference_match": true,
+    "score_delivery_reference_match": true,
+    "answer_delivery_reference_match": true,
+    "spec_delivery_reference_match": true
+  },
+  "reasoning_review": {
+    "damaged_database_to_recover_sql": "PASS",
+    "recover_sql_to_temporary_database": "PASS",
+    "fragments_to_business_disposition": "PASS",
+    "rules_and_ddl_to_rebuilt_database": "PASS",
+    "database_and_inventory_to_reports": "PASS"
+  },
+  "limitations": "本审计不执行任务业务入口，结论来自源码、依赖、进程参数、路径、编码、附件成员与交付闭合的逐项审阅。",
+  "attachments_sha256": {
+    "输入数据包.zip": "21de179997c1598937991a7eb6e67909fdeda3b9567e6586270b9a333aa622f6",
+    "reference.zip": "ffa310309bce1ebae19b625a23a4fdbbef0ffede91e0a004258751dd931c78df",
+    "关键标准答案.xlsx": "f5f157fd87512544dafe33ce14c6b4a97c706f9943f43a16fece2b507de89e33",
+    "任务规格转化.xlsx": "9f058ef157f446ddeee13aff953ad76061ef470cbdf4425a3761191603c0b73f"
+  }
+}

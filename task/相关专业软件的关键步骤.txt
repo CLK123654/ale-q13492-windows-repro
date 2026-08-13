@@ -1,0 +1,7 @@
+1.读取damaged_catalog.db的user_version、application_id与integrity_check结果。
+2.通过标准输入执行.recover --lost-and-found recovered_fragments，将生成的SQL写入recovery.sql。
+3.在临时数据库执行recovery.sql，读取categories、audit_notes与recovered_fragments。
+4.依据recovery_rules.json检查code前缀、字段数、scope、category_id和enabled，分开目录记录与退役缓存。
+5.在空catalog_rebuilt.db执行rebuild_schema.sql，写入完整表、目录记录和恢复元数据。
+6.设置原有数据库标识，执行integrity_check、foreign_key_check与索引查询计划。
+7.生成recovered_catalog.csv、fragment_inventory.csv和recovery_report.json，关闭进程并删除临时数据库。
